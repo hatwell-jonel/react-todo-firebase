@@ -1,8 +1,14 @@
 import React from 'react'
 
+import Header from "../components/Header"
+import TodoForm from "../components/TodoForm"
+
 function Main() {
   return (
-    <div>Main</div>
+    <main>
+        <Header />
+        <TodoForm />
+    </main>
   )
 }
 
