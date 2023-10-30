@@ -1,0 +1,85 @@
+// RESETS
+*,
+*:before,
+*::after{
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+html{
+    font-size: 16px;
+
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6
+{
+  margin: 0;
+}
+
+p{
+  margin: 0;
+}
+
+ul{
+  list-style: none;
+  margin: 0;
+}
+
+button{
+  cursor: pointer;
+}
+
+img{
+  display:block;
+}
+
+a{
+  display: inline-block;
+  text-decoration: none;
+  color: lightskyblue;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+#main-container{
+  position: relative;
+  display: block;
+  max-width: 1800px;
+}
+
+.hide{
+  display: none;
+}
+
+.container{
+  width:95%;
+  margin: 0 auto;
+
+  @include breakpoint(sm){
+    width:90%;
+  }
+
+  @include breakpoint(md){
+    width:80%;
+  }
+
+   @include breakpoint(lg){
+    width:75%;
+  }
+}

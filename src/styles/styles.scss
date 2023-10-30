@@ -1,3 +1,26 @@
-body{
-    background-color: red;
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap');
+
+:root{
+    --background-color: hsl(235, 21%, 11%);
+    --text-color: hsl(0, 0%, 100%);
+    --background-form:  hsl(235, 24%, 19%);
+    --accent-blue: hsl(220, 98%, 61%);
+    --box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    --todo-done: hsl(234, 11%, 52%);
+    --item-hover-bg: hsl(235, 10%, 30%);
+    --font-Josefin: 'Josefin Sans', sans-serif;
 }
+
+[data-theme="light"] {
+    --background-color: hsl(0, 0%, 98%);
+    --text-color: hsl(235, 21%, 11%);
+    --background-form:  hsl(235, 32%, 92%);
+    --item-hover-bg: hsl(230, 40%, 80%);
+}
+  
+
+
+@import "./global";
+@import "./breakpoint";
+
+
