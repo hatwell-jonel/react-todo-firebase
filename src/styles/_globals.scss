@@ -9,8 +9,16 @@
 
 html{
     font-size: 16px;
-
 }
+
+
+body{
+  background-color: var(--background-color);
+  font-family: var(--font-Josefin);
+  min-width: 375px !important;
+  transition: background-color 0.4s ease;
+}
+
 
 h1,
 h2,
@@ -32,7 +40,7 @@ ul{
 }
 
 button{
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
 img{

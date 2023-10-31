@@ -9,6 +9,8 @@
     --todo-done: hsl(234, 11%, 52%);
     --item-hover-bg: hsl(235, 10%, 30%);
     --font-Josefin: 'Josefin Sans', sans-serif;
+    --banner-img-mobile: url(../assets/bg-mobile-dark.jpg);
+    --banner-img-desktop: url(../assets/bg-desktop-dark.jpg);
 }
 
 [data-theme="light"] {
@@ -16,10 +18,255 @@
     --text-color: hsl(235, 21%, 11%);
     --background-form:  hsl(235, 32%, 92%);
     --item-hover-bg: hsl(230, 40%, 80%);
+    --banner-img-mobile: url(../assets/bg-mobile-light.jpg);
+    --banner-img-desktop: url(../assets/bg-desktop-light.jpg);
 }
   
-
 @import "./breakpoint";
 @import "./globals";
 
+.banner{
+    position: fixed !important;
+    z-index: -1 !important;
+    background: var(--banner-img-mobile) no-repeat  center/cover !important;
+    width: 100% !important;
+    height: 220px !important;
 
+    @include breakpoint(md){
+        height: 350px !important;
+        background:  var(--banner-img-desktop) no-repeat  center/cover !important;
+    }
+}
+
+.header{
+    padding: 40px 3.5% 10px;
+    display: flex;  
+    justify-content: space-between;
+    max-width: 800px;
+    margin: 0 auto;
+
+    &__title{
+        color: hsl(0, 0%, 100%);
+        letter-spacing: 8px;
+        font-size: 25px;
+    }
+
+    &__button{
+        display: flex;
+        width: 100px;
+        background-color: transparent;
+        border: 0;
+        color: hsl(0, 0%, 100%);;
+        text-transform: capitalize;
+        gap: 10px;
+        align-items: center;
+        font-size: 12px;
+        
+        &-icon{
+            width: 22px;
+            height: 22px;
+        }
+    }
+}
+
+.todo{
+    padding: 10px 3.5%;
+    max-width: 800px;
+    margin: 20px auto 0;
+
+    @include breakpoint(md){
+        margin-top: 80px;
+    }
+
+
+    &__input{
+        position: relative;
+        box-shadow: var(--box-shadow);
+
+        &-btn{
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 15px;
+            border-radius: 50%;
+            background-color: transparent;
+            border: 1px solid var(--todo-done);
+        }
+
+        &-field{
+            outline: 0;
+            border: 0;
+            caret-color: var(--accent-blue);
+            background-color:  var(--background-form);
+            font-size: 20px;
+            height: 55px;
+            width: 100%;
+            padding-left: 50px;
+            letter-spacing: 1px;
+            color: var(--text-color);
+            border-radius: 8px;
+        }
+
+    }
+
+    &__list{
+        border-radius: 8px 8px 0px 0px;
+        margin-top: 25px;
+        background-color: var(--background-form);
+    }
+
+    &__item{
+        position: relative;
+        display: grid;
+        grid-template-columns: 85% 15%;
+        padding: 1rem .5rem;
+        grid-gap: 5px;
+        border-bottom: 1px solid var(--todo-done);
+
+        @include breakpoint(sm){
+            grid-template-columns: 90% 10%;
+        }
+
+        &:first-child {
+            border-radius: 8px 8px 0px 0px;
+        }   
+
+        &:last-child {
+            border-bottom: 0;
+        }   
+ 
+        &-field{
+            button{
+                position: absolute !important;
+                border-radius: 50% !important;
+                border: 1px solid var(--todo-done);
+                width: 25px;
+                height: 25px;
+                background-color: transparent;
+                position: relative;
+                left: 15px;
+            }
+
+
+            input{
+                border: 0 !important;
+                outline: none !important;
+                caret-color: var(--accent-blue);
+                color: var(--text-color);
+                font-size: 20px;
+                width: 100%;
+                padding-left: 40px;
+                background-color: transparent;
+            }
+        }
+
+        &-action{
+            position: relative;
+            display: flex;
+            gap: 8px;
+            margin-right: 10px;
+            &-btn{ 
+                outline: 0;
+                border: 0;
+                width: 20px !important;
+                height: 20px !important;
+                background-color: transparent;
+                fill: var(--text-color);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+    }
+
+    &__filter{
+        position: relative;
+        border-top: 1px solid var(--todo-done);
+        background-color: var(--background-form);
+        padding: 1.5rem .5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &-item{
+            color: var(--todo-done);
+            font-size: 16px;
+        }
+
+        &-actions{
+            position: absolute;
+            background-color: var(--background-form);
+            padding: 1.2rem 1rem;
+            margin-top: 180px;
+            margin-left: -15px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            border-radius: 8px;
+
+            &-btn{
+                cursor: pointer !important;
+                border: 0;
+                outline: 0;
+                background-color: transparent;
+                color: var(--todo-done);
+                font-size: 16px;
+                text-transform: capitalize;
+                font-family: var(--font-Josefin);
+                width: max-content;
+
+                input[type="radio"] {
+                    cursor: pointer !important;
+                    display: none;
+                    &:checked + label{
+                        color: var(--accent-blue);
+                        border-bottom: 1px solid var(--accent-blue);
+                    }
+                }
+
+                label{
+                    cursor: pointer !important;
+                    font-size: 20px;
+                } 
+            }
+
+            @include breakpoint(md){
+                position: relative;
+                margin: 0;
+                padding: 0;
+                width: 60%;
+                margin-left: 30px;
+            }
+        }
+
+        &-clear{
+            border: 0;
+            background-color: transparent;
+            color: var(--todo-done);
+            font-family: var(--font-Josefin);
+            text-transform: capitalize;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        @include breakpoint(md){
+            border-radius: 0px 0px 8px 8px;
+        }
+
+    }
+
+}
+
+#dragNdrop{
+    color: var(--todo-done);
+    text-align: center;
+    margin-top: 140px;
+
+    @include breakpoint(md){
+        margin-top: 60px;
+    }
+}
