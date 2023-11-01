@@ -125,6 +125,13 @@
         grid-gap: 5px;
         border-bottom: 1px solid var(--todo-done);
 
+        &:hover{
+            .todo__item-action{
+                opacity: 1;
+                transition: .3s ease-in;
+            }
+        }
+
         @include breakpoint(sm){
             grid-template-columns: 90% 10%;
         }
@@ -138,7 +145,7 @@
         }   
  
         &-field{
-            button{
+            &-mark{
                 position: absolute !important;
                 border-radius: 50% !important;
                 border: 1px solid var(--todo-done);
@@ -147,8 +154,31 @@
                 background-color: transparent;
                 position: relative;
                 left: 15px;
-            }
 
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                &:hover{
+                    transition: .2s ease;
+                    background: linear-gradient(
+                        to right,
+                        hsl(192, 100%, 67%),
+                        hsl(280, 87%, 65%)
+                      );
+                      color: white;
+
+                      img{
+                        display: block;
+                      }
+                      
+                }
+
+                img{
+                    width: 15px;
+                    display:none;
+                }
+            }
 
             input{
                 border: 0 !important;
@@ -167,6 +197,7 @@
             display: flex;
             gap: 8px;
             margin-right: 10px;
+            opacity: 0;
             &-btn{ 
                 outline: 0;
                 border: 0;
@@ -259,6 +290,30 @@
 
     }
 
+}
+
+//  done
+.todo__item__done{
+    .todo__item-field{
+
+        &-mark{
+
+            background: linear-gradient(
+                to right,
+                hsl(192, 100%, 67%),
+                hsl(280, 87%, 65%)
+              );
+    
+            img{
+                display: block !important;
+            }
+        }
+
+        input{
+            color: var(--todo-done);
+            text-decoration: line-through;
+        }
+    }
 }
 
 #dragNdrop{
