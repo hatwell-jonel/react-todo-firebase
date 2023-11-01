@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef} from 'react'
 import { useTodoContext } from '../context/TodoContext';
 import checkIcon  from "../assets/icon-check.svg";
 import Swal from 'sweetalert2';
 
 function TodoForm() {
   const [todo, setTodo] = useState('');
-  const [noOfTodo, setNoOfTodo] = useState(0);
+  const [filterTodo, setFilterTodo] = useState('all');
 
   const {
     todoList,
+    itemLeft,
     isReadOnly,
     createTodo,
     updateTodo,
     deleteTodo,
+    clearCompletedTodo
   } = useTodoContext();
 
   const handleSubmit = (e) => {
@@ -20,12 +22,6 @@ function TodoForm() {
     createTodo(todo);
     setTodo('');
   }
-
-  useEffect(() => {
-    const activeTodo = todoList.filter(todo => !todo.completed);
-    setNoOfTodo(activeTodo.length);
-
-  }, [todoList])
 
   return (
     <form className='todo' onSubmit={handleSubmit}>
@@ -42,9 +38,18 @@ function TodoForm() {
 
       <ul className='todo__list'>
         {
-          // todo__item__done
-
-          todoList.map((todo) => {
+          todoList.filter(
+            (todo) => {
+              if (filterTodo === 'all') {
+                return true;
+              } else if (filterTodo === 'active') {
+                return !todo.completed;
+              } else if (filterTodo === 'completed') {
+                return todo.completed;
+              }
+              return false;
+            }
+          ).map((todo) => {
             return (
                 <li className={`todo__item ${todo.completed ? "todo__item__done" : ""}`}key={todo.todoId}>
                 <div className='todo__item-field'>
@@ -69,25 +74,25 @@ function TodoForm() {
       </ul>
       <div className='todo__filter'>
         <div className='todo__filter-item'>
-          {noOfTodo > 1 ?   `${noOfTodo} items left` :  `${noOfTodo} item left` }
+          {itemLeft > 1 ?   `${itemLeft} items left` :  `${itemLeft} item left` }
         </div>
 
         <div className='todo__filter-actions'>
           <div className='todo__filter-actions-btn'>
-            <input type="radio" id="filter-all" name='filter' />
+            <input type="radio" id="filter-all" name='filter' value={filterTodo} checked={filterTodo === 'all'} onChange={() => setFilterTodo('all')}/>
             <label htmlFor="filter-all">all</label>
           </div>
           <div className='todo__filter-actions-btn'>
-            <input type="radio" id="filter-active" name='filter' />
+            <input type="radio" id="filter-active" name='filter' checked={filterTodo === 'active'} onChange={() => setFilterTodo('active')}/>
             <label htmlFor="filter-active">active</label>
           </div>
           <div className='todo__filter-actions-btn'>
-            <input type="radio" id="filter-completed" name='filter' />
+            <input type="radio" id="filter-completed" name='filter' checked={filterTodo === 'completed'} onChange={() => setFilterTodo('completed')}/>
             <label htmlFor="filter-completed">completed</label>
           </div>
         </div>
 
-        <button className='todo__filter-clear'>
+        <button type="button" className='todo__filter-clear' onClick={() => {clearCompletedTodo(todoList)}}>
             clear completed
         </button>
       </div>

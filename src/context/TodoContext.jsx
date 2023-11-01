@@ -9,11 +9,11 @@ const context = createContext();
 export const TodoContextProvider = ({children}) => {
     const [todoList, setTodoList] = useState([]);
     const [isReadOnly, setIsReadOnly] = useState(true);
+    const [itemLeft, setItemLeft] = useState(0);
 
 
     const createTodo = async (todo) => {
         const timestamp = Timestamp.now();
-
         try {
             if(todo == ""){
                 alert('requried')
@@ -27,13 +27,9 @@ export const TodoContextProvider = ({children}) => {
                     completed: false,
                     created_at: timestamp
                 }); 
-
-                // Update the local state by prepending the new todo to the existing data
-                // setTodoList((prevData) => [newTodoRef, ...prevData]);
-
             }
         } catch (error) {
-            console.error("Error adding document: ", error);
+            console.error("Error adding data: ", error);
         }
     }
 
@@ -50,12 +46,25 @@ export const TodoContextProvider = ({children}) => {
                 }
             })
         } catch (error) {
-            console.error(error);
+            console.error("error deleting data:", error);
         }
     }
 
     const clearCompletedTodo = async (todo) => {
-        
+        try {
+            Swal.fire({
+                title: 'You are going to clear the completed to do?',
+                showCancelButton: true,
+                confirmButtonText: 'Proceed',
+            }).then( async (result) => {
+                if (result.isConfirmed) {
+                    todo.forEach(async (item) => { item.completed ? await deleteDoc(doc(db,'todos', item.todoId)) : null });
+                    Swal.fire('Success!', '', 'success')
+                }
+            })
+        } catch (error) {
+            console.error("error deleting data:", error);
+        }
     }
 
     const updateTodo = async(todo) => {
@@ -64,38 +73,59 @@ export const TodoContextProvider = ({children}) => {
             await updateDoc(docRef, {
                 completed: !todo.completed
             });
-            console.log("Todo updated:", todo);
         } catch (error) {
-            console.error(error);
+            console.error("error updating data:", error);
         }
     }
 
     const fetchData = async () => {
-        const todoDbCollection = collection(db, `todos`);
-        const todoDbSnapshot = await getDocs(todoDbCollection);
+        try {
+            const todoDbCollection = collection(db, `todos`);
+            const todoDbSnapshot = await getDocs(todoDbCollection);
+    
+            const todosData = todoDbSnapshot.docs.map((doc) => ({
+                todoId: doc.id,
+                ...doc.data(),
+            }));
 
-        const todosData = [];
-
-        todoDbSnapshot.forEach((doc) => {
-            const todoData = doc.data();
-            todosData.push({ todoId: doc.id, ...todoData });
-        });
-
-        // Set todoData only if it's defined
-        if (todosData) {
-            setTodoList(todosData);
+            // const filteredTodoList = todosData.filter(todo => {
+            // if (filterTodo === 'all') {
+            //     // No filter, show all todos
+            //     return true;
+            // } else if (filterTodo === 'active') {
+            //     // Filter active todos
+            //     return !todo.completed;
+            // } else if (filterTodo === 'completed') {
+            //     // Filter completed todos
+            //     return todo.completed;
+            // }
+            // });
+        
+            setTodoList(todosData); 
+        } catch (error) {
+            console.error('Error fetching data:', error);
         }
+      
     }
-
 
     useEffect(() => {
         fetchData();
-    }, [todoList])
+        const activeTodo = todoList.filter((todo) => !todo.completed);
+        setItemLeft(activeTodo.length);
+    }, [todoList]);
 
     
 
     return (
-        <context.Provider value={{todoList, isReadOnly, createTodo, deleteTodo, updateTodo}}>
+        <context.Provider value={{
+            todoList,
+            itemLeft,
+            isReadOnly, 
+            createTodo, 
+            deleteTodo, 
+            updateTodo, 
+            clearCompletedTodo
+            }}>
             {children}
         </context.Provider>
     )
