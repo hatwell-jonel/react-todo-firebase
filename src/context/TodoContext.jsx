@@ -87,21 +87,8 @@ export const TodoContextProvider = ({children}) => {
                 todoId: doc.id,
                 ...doc.data(),
             }));
-
-            // const filteredTodoList = todosData.filter(todo => {
-            // if (filterTodo === 'all') {
-            //     // No filter, show all todos
-            //     return true;
-            // } else if (filterTodo === 'active') {
-            //     // Filter active todos
-            //     return !todo.completed;
-            // } else if (filterTodo === 'completed') {
-            //     // Filter completed todos
-            //     return todo.completed;
-            // }
-            // });
         
-            setTodoList(todosData); 
+            setTodoList((prev) => [...prev, todosData]); 
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -112,13 +99,14 @@ export const TodoContextProvider = ({children}) => {
         fetchData();
         const activeTodo = todoList.filter((todo) => !todo.completed);
         setItemLeft(activeTodo.length);
-    }, [todoList]);
+        console.log(todoList);
+    }, []);
 
     
-
     return (
         <context.Provider value={{
             todoList,
+            setTodoList,
             itemLeft,
             isReadOnly, 
             createTodo, 

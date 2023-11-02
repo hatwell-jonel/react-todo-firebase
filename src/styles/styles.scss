@@ -6,7 +6,7 @@
     --background-form:  hsl(235, 24%, 19%);
     --accent-blue: hsl(220, 98%, 61%);
     --box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    --todo-done: hsl(234, 11%, 52%);
+    --todo-done: rgb(119, 122, 146);
     --item-hover-bg: hsl(235, 10%, 30%);
     --font-Josefin: 'Josefin Sans', sans-serif;
     --banner-img-mobile: url(../assets/bg-mobile-dark.jpg);
@@ -69,14 +69,72 @@
     }
 }
 
+.user{
+    max-width: 800px;
+    padding: 0px 3.5%;
+    display: flex;
+    align-items: center;
+    margin: 20px auto;
+    position: relative;
+    gap: 10px;
+
+
+    @include breakpoint(md){
+        margin-top: 50px;
+    }
+
+    &__name{
+        color: var(--text-color);
+        font-size: 1rem;
+    }
+
+    
+    &__logout{
+        position: relative;
+        &-caret{
+            background-color: transparent;
+            outline: 0;
+            border: 0;
+            width: 10px;
+            height: 10px;
+        }
+
+        .btns{
+            position: absolute;
+            padding: .2rem;
+            top: -50%;
+            left: 19px;
+            width: 120px;
+            background-color: #fff;
+            box-shadow: var(--box-shadow);
+            z-index: 999;
+
+
+            button{
+                width: 100%;
+                outline: 0;
+                border: 0;
+                text-transform: capitalize;
+                background: transparent;
+                font-family: var(--font-Josefin);
+                font-size: 16px;
+                margin: 5px 0px;
+            }
+
+            &-deleteacc{
+                color: red;
+            }
+   
+        }
+    }
+}
+
 .todo{
     padding: 10px 3.5%;
     max-width: 800px;
-    margin: 20px auto 0;
+    margin: 0px auto ;
 
-    @include breakpoint(md){
-        margin-top: 80px;
-    }
+ 
 
 
     &__input{
@@ -115,6 +173,38 @@
         border-radius: 8px 8px 0px 0px;
         margin-top: 25px;
         background-color: var(--background-form);
+        height: 250px;
+
+        @include breakpoint(md){
+            height: 350px;
+        }
+
+        @include breakpoint(lg){
+            height: 450px;
+        }
+
+
+        &-placeholder{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            height: 100%;
+            gap: 15px;
+
+            img{
+                width: 100px;
+                fill: white;
+            }
+
+            &-text{
+                color: var(--todo-done);
+                opacity: .3;
+                font-size: 20px;
+            }
+
+        }
+
     }
 
     &__item{
@@ -323,5 +413,14 @@
 
     @include breakpoint(md){
         margin-top: 60px;
+    }
+}
+
+.temp{
+    color: white;
+
+    li{
+        font-size: 2rem;
+        border: 1px solid red;
     }
 }

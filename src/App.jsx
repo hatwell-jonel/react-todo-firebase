@@ -10,7 +10,7 @@ import {TodoContextProvider} from './context/TodoContext';
 function App() {
   return (
     <BrowserRouter>
-      <div className='banner'></div>
+      {/* <div className='banner'></div> */}
       <TodoContextProvider>
       <Routes>
         <Route path="/" element={<Main />} /> 
