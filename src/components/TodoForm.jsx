@@ -85,7 +85,7 @@ function TodoForm() {
                                 <button type="button" className='todo__item-field-mark' onClick={() => {updateTodo(todo)}}>
                                   <img src={checkIcon} alt="" />
                                 </button>
-                                <input type="text" value={todo.todo} onChange={(e) => updateCurrentTodo(todo.todoId)}  readOnly={isReadOnly} />
+                                <input type="text" value={todo.todo}  readOnly={isReadOnly} />
                               </div>
                     
                               <div className='todo__item-action'>

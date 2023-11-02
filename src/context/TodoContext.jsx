@@ -82,13 +82,22 @@ export const TodoContextProvider = ({children}) => {
         try {
             const todoDbCollection = collection(db, `todos`);
             const todoDbSnapshot = await getDocs(todoDbCollection);
+
+            const todosData = [];
+
+            todoDbSnapshot.forEach((doc) => {
+                const todoData = doc.data();
+                todosData.push({ todoId: doc.id, ...todoData });
+            });
+
     
-            const todosData = todoDbSnapshot.docs.map((doc) => ({
-                todoId: doc.id,
-                ...doc.data(),
-            }));
+            // const todosData = todoDbSnapshot.docs.map((doc) => ({
+            //     todoId: doc.id,
+            //     ...doc.data(),
+            // }));
+
         
-            setTodoList((prev) => [...prev, todosData]); 
+            setTodoList(todosData); 
         } catch (error) {
             console.error('Error fetching data:', error);
         }
