@@ -88,7 +88,6 @@
         font-size: 1rem;
     }
 
-    
     &__logout{
         position: relative;
         &-caret{
@@ -133,9 +132,6 @@
     padding: 10px 3.5%;
     max-width: 800px;
     margin: 0px auto ;
-
- 
-
 
     &__input{
         position: relative;
@@ -285,9 +281,12 @@
         &-action{
             position: relative;
             display: flex;
+            align-items: center;
+            justify-content: center;
             gap: 8px;
             margin-right: 10px;
             opacity: 0;
+
             &-btn{ 
                 outline: 0;
                 border: 0;
@@ -382,7 +381,7 @@
 
 }
 
-//  done
+//  done todo style
 .todo__item__done{
     .todo__item-field{
 
@@ -416,11 +415,20 @@
     }
 }
 
-.temp{
-    color: white;
+.auth_form{
+    position: absolute;
+    width: 90%;
+    border-radius: 7px;
+    box-shadow: var(--box-shadow);
+    left: 50%;
+    top: 20%;
+    transform: translate(-50%, -50%);
+    background-color: var(--background-form);
+    padding: 1rem;
 
-    li{
-        font-size: 2rem;
-        border: 1px solid red;
+    &-title{
+        color: var(--text-color);
+        text-align: center;
+        letter-spacing: 2px;
     }
 }

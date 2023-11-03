@@ -22,11 +22,23 @@ export const TodoContextProvider = ({children}) => {
                 // const todoDBDocRef = doc(db, 'todo_db');
                 const todosCollectionRef = collection(db, 'todos');
 
-                await addDoc(todosCollectionRef, { 
+                // Create a new todo for database
+                const newTodoRef = await addDoc(todosCollectionRef, { 
                     todo: todo,
                     completed: false,
                     created_at: timestamp
                 }); 
+
+                // Create a new todo for the local state
+                const newTodo = {
+                    todoId: newTodoRef.id,
+                    todo: todo,
+                    completed: false,
+                    created_at: timestamp
+                };
+
+                // Update the local state by prepending the new todo to the existing data
+                setTodoList((prevData) => [newTodo, ...prevData]);
             }
         } catch (error) {
             console.error("Error adding data: ", error);
@@ -42,6 +54,8 @@ export const TodoContextProvider = ({children}) => {
             }).then( async (result) => {
                 if (result.isConfirmed) {
                     await deleteDoc(doc(db, 'todos', todoId));
+                    // Update the local state by removing the completed todo
+                    setTodoList((prevData) => prevData.filter((todoItem) => todoItem.todoId !== todoId));
                     Swal.fire('Saved!', '', 'success')
                 }
             })
@@ -59,6 +73,8 @@ export const TodoContextProvider = ({children}) => {
             }).then( async (result) => {
                 if (result.isConfirmed) {
                     todo.forEach(async (item) => { item.completed ? await deleteDoc(doc(db,'todos', item.todoId)) : null });
+                    // Update the local state by removing the all completed todo
+                    setTodoList((prevData) => prevData.filter((todoItem) => !todoItem.completed));
                     Swal.fire('Success!', '', 'success')
                 }
             })
@@ -73,6 +89,15 @@ export const TodoContextProvider = ({children}) => {
             await updateDoc(docRef, {
                 completed: !todo.completed
             });
+
+            // Update the local state (todoData) by mapping over the array and toggling the completed status
+            setTodoList((prevData) =>
+            prevData.map((item) =>
+            item.todoId === todo.todoId
+                ? { ...item, completed: !item.completed }
+                : item
+                )
+            );
         } catch (error) {
             console.error("error updating data:", error);
         }
@@ -89,14 +114,7 @@ export const TodoContextProvider = ({children}) => {
                 const todoData = doc.data();
                 todosData.push({ todoId: doc.id, ...todoData });
             });
-
     
-            // const todosData = todoDbSnapshot.docs.map((doc) => ({
-            //     todoId: doc.id,
-            //     ...doc.data(),
-            // }));
-
-        
             setTodoList(todosData); 
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -106,9 +124,8 @@ export const TodoContextProvider = ({children}) => {
 
     useEffect(() => {
         fetchData();
-        const activeTodo = todoList.filter((todo) => !todo.completed);
-        setItemLeft(activeTodo.length);
-        console.log(todoList);
+        // const activeTodo = todoList.filter((todo) => !todo.completed);
+        // setItemLeft(activeTodo.length);
     }, []);
 
     

@@ -77,7 +77,6 @@ function Main() {
 
   return (
     <main>
-        <Header />
         <User />
         <TodoForm />
     </main>
