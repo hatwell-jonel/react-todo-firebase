@@ -69,7 +69,6 @@
 
 import React from 'react'
 
-import Header from "../components/Header"
 import TodoForm from "../components/TodoForm"
 import User from "../components/User"
 

@@ -416,19 +416,154 @@
 }
 
 .auth_form{
-    position: absolute;
     width: 90%;
     border-radius: 7px;
     box-shadow: var(--box-shadow);
-    left: 50%;
-    top: 20%;
-    transform: translate(-50%, -50%);
     background-color: var(--background-form);
-    padding: 1rem;
+    padding: 2.5rem 2rem;
+    width: 360px;
+    margin: 60px auto 0px;
 
     &-title{
         color: var(--text-color);
         text-align: center;
         letter-spacing: 2px;
+        margin-bottom: 25px;
     }
+
+    &_input{
+        position: relative !important;
+        margin-bottom: 19px;
+
+        &-field{
+            outline: none;
+            border: 0;
+            font-size: 1rem !important;
+            width: 100%;
+            background-color: transparent;
+            padding: .5rem .5rem .5rem 2.3rem;
+            letter-spacing: 1px;
+
+            color: var(--text-color);
+            caret-color: var(--accent-blue);
+            border-bottom: 1px solid var(--text-color);
+
+            &:focus{
+                border-bottom: 3px solid var(--accent-blue) !important;
+            }
+
+            &:focus  ~ .auth_form_input-icon{
+                color: var(--accent-blue) !important;
+            }
+        }
+
+        &-icon{
+            position: absolute;
+            left: .3rem;
+            bottom: .3rem;
+            font-size: 1.7rem;
+            z-index: 99 !important;
+            color: var(--text-color);
+        }
+    }
+
+    &-registration{
+        color: var(--text-color);
+    }
+
+    &-btn{
+        outline: 0;
+        border: 0;
+        width: 100%;
+        background-color: var(--accent-blue);
+        padding: .7rem;
+        color: white;
+        margin-top: 1.5rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: bold;
+        font-size: 16px;
+
+        &:hover{
+            background: linear-gradient(
+                to right,
+                hsl(192, 100%, 67%),
+                hsl(280, 87%, 65%)
+                );
+                color: white;
+
+                &-logo{
+                color: var(--accent-blue);
+            }
+        }
+    }
+
+    &-separator{
+        margin: 1rem 0;
+        p{
+            text-align: center;
+            position: relative;
+            color: var(--text-color);
+
+            &::before{
+                content: "";
+                position: absolute;
+                width: 45%;
+                height: 1px;
+                background-color: var(--text-color);
+                top: 50%;
+                left: 0;
+            }
+
+            &::after{
+                content: "";
+                position: absolute;
+                width: 45%;
+                height: 1px;
+                background-color: var(--text-color);
+                top: 50%;
+                right: 0;
+            }
+        }
+    }
+
+}
+
+.another-login{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .socialmed-btn{
+        border: 0;
+        padding: .7rem;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 1rem;
+        letter-spacing: 1px;
+        font-weight: bold;
+
+
+        &:hover{
+            background: linear-gradient(
+                to right,
+                hsl(192, 100%, 67%),
+                hsl(280, 87%, 65%)
+              );
+              color: white;
+
+              &-logo{
+                color: var(--accent-blue);
+            }
+        }
+
+        &-logo{
+            font-size: 1.5rem;
+        }
+
+      
+    }
+
 }
