@@ -3,17 +3,13 @@ import { useTodoContext } from '../context/TodoContext';
 import { DragDropContext, Droppable, Draggable  } from "react-beautiful-dnd";
 import checkIcon  from "../assets/icon-check.svg";
 import listIcon  from "../assets/icon-list.svg";
+import {useAuthContext} from "../context/AuthContext";
 import Swal from 'sweetalert2';
 
 function TodoForm() {
   const [todo, setTodo] = useState('');
   const [filterTodo, setFilterTodo] = useState('all');
 
-  //   const [todoList, setTodoList] = useState([
-  //   { todoId: "1", todo: 'Learn React', completed: false },
-  //   { todoId: "2", todo: 'Build a To-Do App', completed: false },
-  //   { todoId: "3", todo: 'Test your app', completed: true },
-  // ]);
 
   const {
     todoList,
@@ -25,6 +21,8 @@ function TodoForm() {
     deleteTodo,
     clearCompletedTodo
   } = useTodoContext();
+
+  const {user} = useAuthContext();
 
   // DRAG TODO ITEMS FOR REORDERING LIST
   const handleOnDragEnd = (result) => {
@@ -40,6 +38,7 @@ function TodoForm() {
     createTodo(todo);
     setTodo('');
   }
+
 
   return (
     <form className='todo' onSubmit={handleSubmit}>

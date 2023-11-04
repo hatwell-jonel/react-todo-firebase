@@ -84,7 +84,7 @@
     }
 
     &__name{
-        color: var(--text-color);
+        color: white;
         font-size: 1rem;
     }
 
@@ -381,7 +381,7 @@
 
 }
 
-//  done todo style
+// done todo style
 .todo__item__done{
     .todo__item-field{
 
@@ -464,7 +464,7 @@
             font-size: 1.7rem;
             z-index: 99 !important;
             color: var(--text-color);
-        }
+        }    
     }
 
     &-registration{
@@ -563,7 +563,6 @@
             font-size: 1.5rem;
         }
 
-      
     }
 
 }

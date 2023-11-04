@@ -2,25 +2,34 @@ import { useContext, createContext, useEffect, useState } from "react";
 import { collection, addDoc, doc, getDocs,updateDoc, deleteDoc, Timestamp } from "firebase/firestore";
 import { db } from '../firebase';
 import Swal from 'sweetalert2';
+import { useAuthContext } from './AuthContext';
 
 
 const context = createContext();
 
 export const TodoContextProvider = ({children}) => {
+    const {user} = useAuthContext();
     const [todoList, setTodoList] = useState([]);
     const [isReadOnly, setIsReadOnly] = useState(true);
     const [itemLeft, setItemLeft] = useState(0);
 
-
+ 
     const createTodo = async (todo) => {
-        const timestamp = Timestamp.now();
+        const timestamp = Timestamp.now(); 
+        
+
         try {
             if(todo == ""){
-                alert('requried')
+                Swal.fire(
+                    "Todo field is required.",
+                    "Can't create empty todo.",
+                    "warning"
+                )
                 return;
             }else{
-                // const todoDBDocRef = doc(db, 'todo_db');
-                const todosCollectionRef = collection(db, 'todos');
+
+                const userDocRef = doc(db, 'todo_db', user.uid);
+                const todosCollectionRef = collection(userDocRef, 'todos');
 
                 // Create a new todo for database
                 const newTodoRef = await addDoc(todosCollectionRef, { 
@@ -53,7 +62,8 @@ export const TodoContextProvider = ({children}) => {
                 confirmButtonText: 'Yes',
             }).then( async (result) => {
                 if (result.isConfirmed) {
-                    await deleteDoc(doc(db, 'todos', todoId));
+                    const todoDocRef = doc(db,'todo_db', user.uid, 'todos', todoId);
+                    await deleteDoc(todoDocRef);
                     // Update the local state by removing the completed todo
                     setTodoList((prevData) => prevData.filter((todoItem) => todoItem.todoId !== todoId));
                     Swal.fire('Saved!', '', 'success')
@@ -64,7 +74,7 @@ export const TodoContextProvider = ({children}) => {
         }
     }
 
-    const clearCompletedTodo = async (todo) => {
+    const clearCompletedTodo = async (todos) => {
         try {
             Swal.fire({
                 title: 'You are going to clear the completed to do?',
@@ -72,7 +82,7 @@ export const TodoContextProvider = ({children}) => {
                 confirmButtonText: 'Proceed',
             }).then( async (result) => {
                 if (result.isConfirmed) {
-                    todo.forEach(async (item) => { item.completed ? await deleteDoc(doc(db,'todos', item.todoId)) : null });
+                    todos.forEach(async (todo) => { todo.completed ? await deleteDoc(doc(db,'todo_db', user.uid, 'todos', todo.todoId)) : null });
                     // Update the local state by removing the all completed todo
                     setTodoList((prevData) => prevData.filter((todoItem) => !todoItem.completed));
                     Swal.fire('Success!', '', 'success')
@@ -85,11 +95,8 @@ export const TodoContextProvider = ({children}) => {
 
     const updateTodo = async(todo) => {
         try {
-            const docRef = doc(db, 'todos', todo.todoId);
-            await updateDoc(docRef, {
-                completed: !todo.completed
-            });
-
+            const todoDocRef = doc(db,'todo_db', user.uid, 'todos', todo.todoId);
+            await updateDoc(todoDocRef, {completed: !todo.completed});
             // Update the local state (todoData) by mapping over the array and toggling the completed status
             setTodoList((prevData) =>
             prevData.map((item) =>
@@ -105,7 +112,8 @@ export const TodoContextProvider = ({children}) => {
 
     const fetchData = async () => {
         try {
-            const todoDbCollection = collection(db, `todos`);
+            const userDocRef = doc(db, `todo_db`, user.uid);
+            const todoDbCollection = collection(userDocRef, `todos`);
             const todoDbSnapshot = await getDocs(todoDbCollection);
 
             const todosData = [];
@@ -124,9 +132,7 @@ export const TodoContextProvider = ({children}) => {
 
     useEffect(() => {
         fetchData();
-        // const activeTodo = todoList.filter((todo) => !todo.completed);
-        // setItemLeft(activeTodo.length);
-    }, []);
+    }, [user]);
 
     
     return (
