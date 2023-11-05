@@ -158,6 +158,7 @@
             height: 55px;
             width: 100%;
             padding-left: 50px;
+            padding-right: 20px;
             letter-spacing: 1px;
             color: var(--text-color);
             border-radius: 8px;
@@ -170,6 +171,25 @@
         margin-top: 25px;
         background-color: var(--background-form);
         height: 250px;
+        overflow-y: scroll;
+
+
+        &::-webkit-scrollbar{
+            width: 8px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            background: linear-gradient(
+                to bottom,
+                hsl(192, 100%, 67%),
+                hsl(280, 87%, 65%)
+              );
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent; /* Set the track background to transparent */
+          }
 
         @include breakpoint(md){
             height: 350px;
@@ -224,10 +244,6 @@
 
         &:first-child {
             border-radius: 8px 8px 0px 0px;
-        }   
-
-        &:last-child {
-            border-bottom: 0;
         }   
  
         &-field{
@@ -303,7 +319,7 @@
 
     &__filter{
         position: relative;
-        border-top: 1px solid var(--todo-done);
+        // border-top: 1px solid var(--todo-done);
         background-color: var(--background-form);
         padding: 1.5rem .5rem;
         display: flex;
