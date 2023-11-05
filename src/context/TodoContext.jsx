@@ -4,7 +4,6 @@ import { db } from '../firebase';
 import Swal from 'sweetalert2';
 import { useAuthContext } from './AuthContext';
 
-
 const context = createContext();
 
 export const TodoContextProvider = ({children}) => {
@@ -130,20 +129,12 @@ export const TodoContextProvider = ({children}) => {
             console.error('Error fetching data:', error);
         }
     }
-
-    const updateItemLeft = () => {
-        const activeTodos = todoList.filter((todo) => !todo.completed).length;
-        setItemLeft(activeTodos);
-    };
     
 
     useEffect(() => {
         fetchData();
 
      }, [user]);
-
-
-
 
     return (
         <context.Provider value={{

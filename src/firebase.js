@@ -2,8 +2,6 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import {getAuth} from "firebase/auth";
 
-console.log(import.meta.env.VITE_REACT_APIKEY);
-
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_REACT_APIKEY,
   authDomain: import.meta.env.VITE_REACT_AUTHDOMAIN,
