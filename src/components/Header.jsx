@@ -16,7 +16,7 @@ function Header() {
  
   return (
     <header className='header'>
-      <h1 className='header__title'>TODO</h1>
+      <h1 className='header__title'>TODO | jonel hatwell</h1>
 
       <button className='header__button' onClick={handleTheme}>
         {
