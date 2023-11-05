@@ -21,8 +21,8 @@ This is a solution to the [Todo app challenge on Frontend Mentor](https://www.fr
 
 ### Links
 
-- Solution URL: [Click Here]()
-- Live Site URL: [Click Here]()
+- Solution URL: [Frontendmentor](https://www.frontendmentor.io/solutions/firebase-105-reactjs-reactbeautifuldnd-scss-authentication-CCcmHt8VYk)
+- Live Site URL: [https://react-80ff9.web.app/](https://react-80ff9.web.app/)
 
 ### Built with
 
