@@ -19,7 +19,8 @@ function TodoForm() {
     createTodo,
     updateTodo,
     deleteTodo,
-    clearCompletedTodo
+    clearCompletedTodo,
+    activeTodosLength
   } = useTodoContext();
 
   const {user} = useAuthContext();
@@ -113,7 +114,7 @@ function TodoForm() {
 
       <div className='todo__filter'>
         <div className='todo__filter-item'>
-          {itemLeft > 1 ?   `${itemLeft} items left` :  `${itemLeft} item left` }
+          {activeTodosLength > 1 ?   `${activeTodosLength} items left` :  `${activeTodosLength} item left` }
         </div>
 
         <div className='todo__filter-actions'>

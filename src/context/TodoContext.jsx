@@ -12,6 +12,7 @@ export const TodoContextProvider = ({children}) => {
     const [todoList, setTodoList] = useState([]);
     const [isReadOnly, setIsReadOnly] = useState(true);
     const [itemLeft, setItemLeft] = useState(0);
+    const activeTodosLength  = todoList.filter((todo) => !todo.completed).length;
 
  
     const createTodo = async (todo) => {
@@ -97,9 +98,10 @@ export const TodoContextProvider = ({children}) => {
         try {
             const todoDocRef = doc(db,'todo_db', user.uid, 'todos', todo.todoId);
             await updateDoc(todoDocRef, {completed: !todo.completed});
+
             // Update the local state (todoData) by mapping over the array and toggling the completed status
             setTodoList((prevData) =>
-            prevData.map((item) =>
+            prevData.map((item) => 
             item.todoId === todo.todoId
                 ? { ...item, completed: !item.completed }
                 : item
@@ -122,29 +124,38 @@ export const TodoContextProvider = ({children}) => {
                 const todoData = doc.data();
                 todosData.push({ todoId: doc.id, ...todoData });
             });
-    
+
             setTodoList(todosData); 
         } catch (error) {
             console.error('Error fetching data:', error);
         }
-      
     }
+
+    const updateItemLeft = () => {
+        const activeTodos = todoList.filter((todo) => !todo.completed).length;
+        setItemLeft(activeTodos);
+    };
+    
 
     useEffect(() => {
         fetchData();
-    }, [user]);
 
-    
+     }, [user]);
+
+
+
+
     return (
         <context.Provider value={{
             todoList,
             setTodoList,
             itemLeft,
-            isReadOnly, 
-            createTodo, 
-            deleteTodo, 
-            updateTodo, 
-            clearCompletedTodo
+            isReadOnly,
+            createTodo,
+            deleteTodo,
+            updateTodo,
+            clearCompletedTodo,
+            activeTodosLength
             }}>
             {children}
         </context.Provider>
