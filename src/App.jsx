@@ -17,22 +17,34 @@ function App() {
     <BrowserRouter>
       <div className='banner'></div>
       <Header />
-      <AuthContextProvider>
         <Routes>
           <Route path="/" element={<Login />} /> 
           <Route path="/account-registration" element={<SignUp />} /> 
-            <Route path="/todo" element={
-              <ProtectedRoute>
-                <TodoContextProvider>
-                  <Main />
-                </TodoContextProvider>
-              </ProtectedRoute>
-            } /> 
+            <Route path="/todo" element={<Main />} /> 
             <Route path="*" element={<NotFound />} /> 
         </Routes>
-      </AuthContextProvider>
     </BrowserRouter>
   )
 }
 
 export default App
+
+
+{/* <BrowserRouter>
+<div className='banner'></div>
+<Header />
+<AuthContextProvider>
+  <Routes>
+    <Route path="/" element={<Login />} /> 
+    <Route path="/account-registration" element={<SignUp />} /> 
+      <Route path="/todo" element={
+        <ProtectedRoute>
+          <TodoContextProvider>
+            <Main />
+          </TodoContextProvider>
+        </ProtectedRoute>
+      } /> 
+      <Route path="*" element={<NotFound />} /> 
+  </Routes>
+</AuthContextProvider>
+</BrowserRouter> */}
