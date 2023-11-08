@@ -3,7 +3,6 @@ import { MdEmail, MdLock } from "react-icons/md";
 import { Link, useNavigate } from 'react-router-dom';
 import FacebookButton from '../components/FacebookButton';
 import GoogleButton from '../components/GoogleButton';
-import {useAuthContext} from "../context/AuthContext";
 
 function Login() {
   const registrationPage = "/account-registration";
@@ -13,22 +12,8 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const {loginWithemailAndPassword,user} = useAuthContext();
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await loginWithemailAndPassword(email, password);     
-  }
-
-  useEffect(() => {
-    if(user != null){
-      navigate(mainPage);
-    }
-  },[user]);
-
-  
   return (
-    <form className='auth_form' onSubmit={handleSubmit}>
+    <form className='auth_form'>
       <h2 className='auth_form-title'>WELCOME</h2>
 
       <div className="auth_form_input">
