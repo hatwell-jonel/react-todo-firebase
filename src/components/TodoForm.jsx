@@ -1,16 +1,28 @@
-import React, { useEffect, useState, useRef} from 'react'
+import React, { useEffect, useState, useRef} from 'react';
 import { useTodoContext } from '../context/TodoContext';
 import { DragDropContext, Droppable, Draggable  } from "react-beautiful-dnd";
+import { useDispatch, useSelector } from "react-redux";
+import { addTodo } from '../features/todo/todoSlice';
+
 import checkIcon  from "../assets/icon-check.svg";
 import listIcon  from "../assets/icon-list.svg";
 import Swal from 'sweetalert2';
 
 function TodoForm() {
+  const dispatch = useDispatch();
+  const { todoItems } = useSelector((store) => store.todo);
+
+
   const [todo, setTodo] = useState('');
   const [filterTodo, setFilterTodo] = useState('all');
 
+
+  const handleAddTodo = (e) => {
+    e.preventDefault();
+  }
+
   return (
-    <form className='todo'>
+    <form className='todo' onSubmit={handleAddTodo}>
       <div className='todo__input'>
         <button type='submit' className='todo__input-btn'></button> 
         <input

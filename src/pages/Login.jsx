@@ -3,8 +3,12 @@ import { MdEmail, MdLock } from "react-icons/md";
 import { Link, useNavigate } from 'react-router-dom';
 import FacebookButton from '../components/FacebookButton';
 import GoogleButton from '../components/GoogleButton';
+import { setUser } from '../features/auth/authSlice';
+import { useDispatch } from 'react-redux';
+
 
 function Login() {
+  const dispatcher = useDispatch();
   const registrationPage = "/account-registration";
   const mainPage = "/todo";
   const navigate = useNavigate();
@@ -12,8 +16,21 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    try {
+      dispatcher(setUser());
+      // dispatcher(loginWithemailAndPassword(email, password))
+    } catch (error) {
+      console.error(error);
+    }
+
+  }
+
+
   return (
-    <form className='auth_form'>
+    <form className='auth_form' onSubmit={handleLogin}>
       <h2 className='auth_form-title'>WELCOME</h2>
 
       <div className="auth_form_input">
