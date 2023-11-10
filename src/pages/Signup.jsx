@@ -3,7 +3,7 @@ import { MdEmail, MdLock, } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { createUser } from '../features/auth/authSlice';
+import { createUser, logout } from '../features/auth/authSlice';
 import { useDispatch } from 'react-redux';
 
 
@@ -18,13 +18,14 @@ function SignUp() {
     username: '',
   });
 
-  const handleCreateUser = (e) => {
+  const handleCreateUser = async (e) => {
     e.preventDefault();
 
 
     try {
       dispatch(createUser(userInfo));
-
+      logout();
+      
       Swal.fire({
         icon: 'success',
         title: 'Your account has been Created. Please Login.',

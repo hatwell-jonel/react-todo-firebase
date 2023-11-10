@@ -35,14 +35,14 @@ export const AuthContextProvider = ({children}) => {
 
     const logout = () => {
         return signOut(auth);
-     }
+    }
 
-     const loginWithGoogle = () => {
+    const loginWithGoogle = () => {
         const provider = new GoogleAuthProvider();
         signInWithRedirect(auth, provider);
     }
 
-     const loginWithFacebook = () => {
+    const loginWithFacebook = () => {
         const provider = new FacebookAuthProvider();
         signInWithPopup(auth, provider);
     } 
@@ -69,7 +69,7 @@ export const AuthContextProvider = ({children}) => {
         })
     }
     
-     useEffect(() => {
+    useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
             // console.log(currentUser);

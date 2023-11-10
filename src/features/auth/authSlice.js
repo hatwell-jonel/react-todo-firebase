@@ -18,7 +18,6 @@ const initialState = {
     error: null,
 }
 
-// Create an async thunk for user creation
 export const createUser = createAsyncThunk( 'authentication/createUser',
     async ({ email, password, username }, thunkAPI) => {
       try {
@@ -32,54 +31,52 @@ export const createUser = createAsyncThunk( 'authentication/createUser',
     }
 );
 
-export const loginWithemailAndPassword = createAsyncThunk( 'authentication/login',
-     ({ email, password }, thunkAPI) => {
+export const loginWithEmailAndPassword = createAsyncThunk( 'authentication/loginWithemailAndPassword',
+     async ({ email, password }, thunkAPI) => {
       try {
-        return signInWithEmailAndPassword(auth, email, password);
+        return await signInWithEmailAndPassword(auth, email, password);
       } catch (error) {
         throw error;
       }
     }
 );
+
+export const loginWithGoogle = () => {
+  const provider = new GoogleAuthProvider();
+  signInWithRedirect(auth, provider);
+}
+
+
+export const logout = async () => {
+   await signOut(auth);
+}
   
   
-const authSlice = createSlice({
+const authSlice = createSlice({ 
     name: "authentication",
     initialState,
     reducers: {
-        setUser: (state, action) => {
-          console.log(action.payload);
-            state.user = action.payload;
-        },
-        // createUser: async (state, {payload}) => {
-        //     state.isLoading = false;
-        //     const userCredential = await createUserWithEmailAndPassword(auth, payload.email, payload.password);
-
-        //     // Set the username in the user's profile or store it in the database
-        //     await updateProfile(userCredential.user, { displayName: payload.username });
-
-        //     console.log(userCredential);
-        //     return userCredential;
-        // }
+      authenticatedUser: (state, action) => {
+        state.user = action.payload;
+      },
     },
     extraReducers: (builder) => {
         builder
-          .addCase(createUser.fulfilled, (state, action) => {
+          .addCase(createUser.fulfilled, async (state, action) => {
             state.user = action.payload;
-            state.error = null; // Clear any previous error
+            state.error = null; 
+            // logout the created account, so the will not redirect to the mainpage. instead go to login page.
+            logout(); 
           })
-          .addCase(loginWithemailAndPassword.fulfilled, (state, action) => {
+          .addCase(loginWithEmailAndPassword.fulfilled, (state, action) => {
             state.user = action.payload;
-            state.isLoading = false;
             state.error = null;
           })
       },
 });
 
-
-
 // Actions
-export const { setUser } = authSlice.actions;
+export const { authenticatedUser } = authSlice.actions;
 
 // Export the reducer
 export default authSlice.reducer;
