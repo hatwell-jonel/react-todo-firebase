@@ -29,7 +29,7 @@ export const AuthContextProvider = ({children}) => {
         return userCredential;
     }
 
-    const loginWithemailAndPassword = (email, password) => {
+    const loginWithEmailAndPassword = (email, password) => {
         return signInWithEmailAndPassword(auth, email, password);
     }
 
@@ -80,7 +80,7 @@ export const AuthContextProvider = ({children}) => {
 
 
     return (
-        <context.Provider value={{user,createUser,loginWithemailAndPassword,logout,loginWithFacebook, loginWithGoogle, deleteUserAccount}}>
+        <context.Provider value={{user,createUser,loginWithEmailAndPassword,logout,loginWithFacebook, loginWithGoogle, deleteUserAccount}}>
             {children}
         </context.Provider>
     )
